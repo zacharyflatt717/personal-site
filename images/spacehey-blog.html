@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SpaceHey Blog with TTS</title>
+<style>
+  body {
+    background: black;
+    color: white;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .main-content {
+    flex: 1 1 700px;
+    padding: 20px;
+  }
+  .sidebar {
+    flex: 0 0 250px;
+    padding: 20px;
+    border-left: 1px solid #00ffff;
+  }
+  button {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+    background: #00ffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover { background: #00aaaa; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="main-content">
+    <h1>Exploring SpaceHey</h1>
+    <p id="blog-text">
+      Today, while browsing YouTube, I came across a website called <strong>SpaceHey – a space for friends.</strong> 
+      It’s a nostalgic throwback, a direct clone of the old MySpace. I jumped in to explore and customize my profile…
+    </p>
+  </div>
+
+  <div class="sidebar">
+    <h2>Listen to this post</h2>
+    <p>Click a button below to control playback:</p>
+    <button id="play">▶ Play</button>
+    <button id="pause">⏸ Pause</button>
+    <button id="resume">▶ Resume</button>
+    <button id="stop">⏹ Stop</button>
+  </div>
+
+<script>
+  let utterance = new SpeechSynthesisUtterance(document.getElementById("blog-text").innerText);
+  utterance.rate = 1;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  const playBtn = document.getElementById("play");
+  const pauseBtn = document.getElementById("pause");
+  const resumeBtn = document.getElementById("resume");
+  const stopBtn = document.getElementById("stop");
+
+  utterance.onend = () => {
+    console.log("Finished speaking");
+  };
+
+  playBtn.addEventListener("click", () => {
+    if (!speechSynthesis.speaking && !speechSynthesis.paused) {
+      speechSynthesis.speak(utterance);
+    }
+  });
+
+  pauseBtn.addEventListener("click", () => {
+    if (speechSynthesis.speaking && !speechSynthesis.paused) {
+      speechSynthesis.pause();
+    }
+  });
+
+  resumeBtn.addEventListener("click", () => {
+    if (speechSynthesis.paused) {
+      speechSynthesis.resume();
+    }
+  });
+
+  stopBtn.addEventListener("click", () => {
+    if (speechSynthesis.speaking || speechSynthesis.paused) {
+      speechSynthesis.cancel();
+    }
+  });
+</script>
+
+
+
+
+</body>
+</html>
