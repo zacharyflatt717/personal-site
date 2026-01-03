@@ -23,14 +23,10 @@
 
     .main-content {
       flex: 1 1 700px;
-      padding: 60px 20px 20px 20px; /* top padding leaves space for header */
+      padding: 80px 20px 20px 20px; /* top padding leaves space for bouncing header */
       text-align: center;
-      position: relative; /* For bouncing h1 */
+      position: relative; /* for bouncing header */
     }
-	
-	.main-content hr:first-of-type {
-		margin-top: 80px; /* adjust based on header height */
-	}
 
     .sidebar {
       flex: 0 0 250px;
@@ -44,13 +40,11 @@
 
     #header {
       font-size: 3em;
-      margin-bottom: 10px;
       text-shadow: 2px 2px #00ffff;
-      position: absolute; /* For bouncing */
-      top: 20px;
+      position: absolute;
+      top: 20px;  /* gap from top of main content */
       left: 0;
       white-space: nowrap;
-	  bottom: 30px;
     }
 
     h2 {
@@ -119,6 +113,17 @@
     button:hover {
       background-color: #00aaaa;
     }
+
+    textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #00ffff;
+      background: #000000aa;
+      color: white;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
   </style>
 </head>
 <body>
@@ -134,7 +139,8 @@
 
       <p id="blog-text">
         Today, while browsing YouTube, I came across a website called <strong>SpaceHey – a space for friends.</strong> It’s a nostalgic throwback, which seems to be a direct clone of the old MySpace. Now, I wasn't old enough back then to 
-        experience MySpace myself, but as someone who’s weirdly obsessed with early 2000s nostalgia, I was sucked right in. If you remember MySpace, drop a comment and let me know what you recall or what feels different on SpaceHey!
+        experience MySpace myself, but as someone who’s weirdly obsessed with early 2000s nostalgia, I was sucked right in. If you remember MySpace, drop a comment and let me know what you recall or what feels different on SpaceHey!  
+        Check out this video: <a href="https://www.youtube.com/watch?v=xXGrzHvoMqI" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
       </p>
 
       <img src="../images/spacehey.png" alt="Screenshot of SpaceHey website">
@@ -146,11 +152,18 @@
       </p>
 
       <img src="../images/signup.png" alt="Failed sign up">
-	  
-	  <p>I don't wanna be the asshole that uses a VPN and winds up getting the site owners in trouble so for now i'm just gonna wait until i find a more suitable solution. However,
-	  there are plenty of great videos on it on Youtube. : <a href="https://www.youtube.com/watch?v=xXGrzHvoMqI" target="_blank" rel="noopener noreferrer">
-  Like this one from Techquickie
-</a>
+
+      <h2>Getting around geoblocking</h2>
+
+      <p>
+        So because spacehey is restricted in Virginia, i'm going to have to use a VPN to get around that. Luckily Opera browser has one built in. The only server that worked was Europe. So i guess connect from Europe and youre good to go
+      </p>
+	  <p>
+	  This is my profile. I found code in their <strong>layouts</strong> section that someone had posted, that made it look like windows 98. which i thought was awesome so i used that.
+
+      <img src="../images/myprofile.png" alt="Failed sign up">
+
+
       <hr>
 
       <a href="../index.html">← Back to Home</a>
@@ -164,11 +177,19 @@
       <button id="pause">⏸ Pause</button>
       <button id="resume">▶ Resume</button>
       <button id="stop">⏹ Stop</button>
+
+      <hr>
+
+      <h2>Comments</h2>
+      <textarea id="commentInput" placeholder="Write your comment..." rows="4"></textarea>
+      <button id="submitComment">Submit Comment</button>
+
+      <div id="commentList" style="margin-top: 15px;"></div>
     </div>
   </div>
 
 <script>
-  // TTS functionality
+  // Text-to-Speech
   const blogText = document.getElementById("blog-text").innerText;
   const utterance = new SpeechSynthesisUtterance(blogText);
   utterance.rate = 1;
@@ -187,12 +208,12 @@
   resumeBtn.addEventListener("click", () => { if (speechSynthesis.paused) speechSynthesis.resume(); });
   stopBtn.addEventListener("click", () => { if (speechSynthesis.speaking || speechSynthesis.paused) speechSynthesis.cancel(); });
 
-  // Bouncing header functionality
+  // Bouncing header
   const header = document.getElementById('header');
   const mainContent = document.querySelector('.main-content');
 
-  let direction = 1; // 1 = right, -1 = left
-  let speed = 2; // pixels per frame
+  let direction = 1;
+  let speed = 2;
   let x = 0;
 
   function bounceHeader() {
@@ -210,6 +231,25 @@
   }
 
   bounceHeader();
+
+  // Comment Section
+  const commentInput = document.getElementById('commentInput');
+  const submitComment = document.getElementById('submitComment');
+  const commentList = document.getElementById('commentList');
+
+  submitComment.addEventListener('click', () => {
+    const text = commentInput.value.trim();
+    if (text) {
+      const comment = document.createElement('p');
+      comment.style.background = '#00ffff33';
+      comment.style.padding = '5px 10px';
+      comment.style.borderRadius = '5px';
+      comment.style.marginBottom = '5px';
+      comment.textContent = text;
+      commentList.appendChild(comment);
+      commentInput.value = '';
+    }
+  });
 </script>
 
 </body>
